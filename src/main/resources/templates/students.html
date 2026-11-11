@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student List</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="container wide">
+    <h1>Registered Students</h1>
+
+    <!-- Message used by the bonus page when the id does not exist -->
+    <p class="error-box" th:if="${notFoundMessage}" th:text="${notFoundMessage}"></p>
+
+    <!-- Message when there are no students at all -->
+    <p class="info" th:if="${#lists.isEmpty(students) and notFoundMessage == null}">
+        No students are registered yet.
+    </p>
+
+    <div class="table-wrapper" th:unless="${#lists.isEmpty(students)}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Age</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- th:each repeats this row for every student in the list -->
+            <tr th:each="s : ${students}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.firstName}"></td>
+                <td th:text="${s.lastName}"></td>
+                <td th:text="${s.email}"></td>
+                <td th:text="${s.age}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a class="link" th:href="@{/student/register}">Register a new student</a>
+    <a class="link" th:href="@{/student/all}">Show all students</a>
+</div>
+</body>
+</html>
