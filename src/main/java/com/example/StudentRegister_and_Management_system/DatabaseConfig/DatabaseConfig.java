@@ -7,10 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-// A configuration class creates beans manually using @Bean methods.
-// Here we create the DataSource bean: it knows how to connect to PostgreSQL.
-// The values come from application.properties, which reads environment variables,
-// so the password is never written in the code.
+
 @Configuration
 public class DatabaseConfig {
 

@@ -16,19 +16,15 @@ import com.example.StudentRegister_and_Management_system.model.Student;
 
 import jakarta.annotation.PostConstruct;
 
-// @Repository makes this class a Spring bean.
-// This is the ONLY class that talks to the database, using plain JDBC.
 @Repository
 public class StudentRepository {
 
     private final DataSource dataSource;
 
-    // Constructor injection: Spring gives us the DataSource bean automatically
     public StudentRepository(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    // Runs automatically once, when the app starts. It creates the table if it is missing.
     @PostConstruct
     public void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS students ("
@@ -47,11 +43,9 @@ public class StudentRepository {
         }
     }
 
-    // INSERT a new student. First name + last name are saved as one full_name.
     public void save(Student student) {
         String sql = "INSERT INTO students (full_name, age, email) VALUES (?, ?, ?)";
 
-        // try-with-resources closes the Connection and PreparedStatement for us
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
@@ -65,7 +59,7 @@ public class StudentRepository {
         }
     }
 
-    // SELECT all students
+
     public List<Student> findAll() {
         String sql = "SELECT id, full_name, age, email FROM students ORDER BY id";
         List<Student> students = new ArrayList<>();
@@ -84,7 +78,6 @@ public class StudentRepository {
         return students;
     }
 
-    // SELECT one student by id (bonus). Returns null if not found.
     public Student findById(int id) {
         String sql = "SELECT id, full_name, age, email FROM students WHERE id = ?";
 
@@ -102,11 +95,9 @@ public class StudentRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Could not find student: " + e.getMessage(), e);
         }
-        return null; // no student with this id
+        return null;
     }
 
-    // Turns one row of the ResultSet into a Student object.
-    // full_name is split back into first name and last name (at the first space).
     private Student mapRow(ResultSet resultSet) throws SQLException {
         String fullName = resultSet.getString("full_name");
         String[] parts = fullName.split(" ", 2);

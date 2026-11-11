@@ -5,8 +5,6 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-// This class holds the data of one student.
-// The annotations (@NotBlank, @Email, ...) are the validation rules for the form.
 public class Student {
 
     private int id;
@@ -25,11 +23,9 @@ public class Student {
     @Min(value = 1, message = "Age must be greater than zero")
     private Integer age;
 
-    // Empty constructor (Spring needs this to build the object from the form)
     public Student() {
     }
 
-    // Constructor without id (used when creating a new student)
     public Student(String firstName, String lastName, String email, Integer age) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -37,7 +33,6 @@ public class Student {
         this.age = age;
     }
 
-    // Constructor with id (used when reading a student from the database)
     public Student(int id, String firstName, String lastName, String email, Integer age) {
         this(firstName, lastName, email, age);
         this.id = id;
@@ -83,8 +78,8 @@ public class Student {
         this.age = age;
     }
 
-    // The database stores one full name, so we combine first + last name here
     public String getFullName() {
         return firstName + " " + lastName;
     }
+
 }
